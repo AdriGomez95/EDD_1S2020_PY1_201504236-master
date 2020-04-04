@@ -1,0 +1,9 @@
+digraph G{
+node0[shape = record,label = "hola"];
+node1[shape = record,label = "diccionario"];
+node2[shape = record,label = "x"];
+node3[shape = record,label = "zi"];
+node4[shape = record,label = "u"];
+node5[shape = record,label = "proyecto"];
+node6[shape = record,label = "mundo"];
+node0->node1->node2->node3->node4->node5->node6->node0;node6->node5->node4->node3->node2->node1->node0->node6;}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Proyecto1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Proyecto1" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Proyecto1" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/ArbolBinario.h" />
+		<Unit filename="include/Cola.h" />
+		<Unit filename="include/ListaCircular.h" />
+		<Unit filename="include/ListaSimple.h" />
+		<Unit filename="include/NodoArbol.h" />
+		<Unit filename="include/NodoCircular.h" />
+		<Unit filename="include/NodoCola.h" />
+		<Unit filename="include/matriz.h" />
+		<Unit filename="include/nodoLista.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/ArbolBinario.cpp" />
+		<Unit filename="src/Cola.cpp" />
+		<Unit filename="src/ListaCircular.cpp" />
+		<Unit filename="src/ListaSimple.cpp" />
+		<Unit filename="src/NodoArbol.cpp" />
+		<Unit filename="src/NodoCircular.cpp" />
+		<Unit filename="src/NodoCola.cpp" />
+		<Unit filename="src/matriz.cpp" />
+		<Unit filename="src/nodoLista.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

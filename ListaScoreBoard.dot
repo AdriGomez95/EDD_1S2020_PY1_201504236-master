@@ -1,0 +1,6 @@
+digraph G{
+node0[shape = record,label = "Noah: 0"];
+node1[shape = record,label = "Sam: 1"];
+node2[shape = record,label = "Gomez: 3"];
+node3[shape = record,label = "Adriana: 8"];
+node0->node1->node2->node3}

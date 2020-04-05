@@ -1,4 +1,4 @@
 digraph G{
 rankdir=LR;
 node [shape = record,height=.1];
-"Amix jajaja"->"Mejor"->"Mi"->"Horacio";}
+"Noah"->"Sam"->"Gomez"->"Adriana";}

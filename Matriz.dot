@@ -1,37 +1,57 @@
 digraph Matriz {
  node[shape=box];
-"Mat""columna9"[label="9"];
+"Mat""columna1"[label="1"];
+"columna3"[label="3"];
+"columna4"[label="4"];
 "columna20"[label="20"];
+"fila2"[label="2"]
 "fila3"[label="3"]
 "fila4"[label="4"]
 "fila20"[label="20"]
-"nodo39"[label=" z"];
-"nodo49"[label=" i"];
+"nodo21"[label=" x"];
+"nodo23"[label=" j"];
+"nodo33"[label=" u"];
+"nodo44"[label=" u"];
 "nodo2020"[label=" Maximum"];
-{rank=min;"Mat";"columna9";"columna20";};
-{rank=same;"fila3";"nodo39";};
-{rank=same;"fila4";"nodo49";};
+{rank=min;"Mat";"columna1";"columna3";"columna4";"columna20";};
+{rank=same;"fila2";"nodo21";"nodo23";};
+{rank=same;"fila3";"nodo33";};
+{rank=same;"fila4";"nodo44";};
 {rank=same;"fila20";"nodo2020";};
-"fila3"->"nodo39"[constraint=false];
-"nodo39"->"fila3"[constraint=false];
-"fila4"->"nodo49"[constraint=false];
-"nodo49"->"fila4"[constraint=false];
+"fila2"->"nodo21"[constraint=false];
+"nodo21"->"fila2"[constraint=false];
+"nodo21"->"nodo23"[constraint=false];
+"nodo23"->"nodo21"[constraint=false];
+"fila3"->"nodo33"[constraint=false];
+"nodo33"->"fila3"[constraint=false];
+"fila4"->"nodo44"[constraint=false];
+"nodo44"->"fila4"[constraint=false];
 "fila20"->"nodo2020"[constraint=false];
 "nodo2020"->"fila20"[constraint=false];
-"Mat"->"columna9";
-"columna9"->"Mat";
-"columna9"->"columna20";
-"columna20"->"columna9"[constraint=false];
-"Mat"->"fila3"[rankdir=UD];
-"fila3"->"Mat";
+"Mat"->"columna1";
+"columna1"->"Mat";
+"columna1"->"columna3";
+"columna3"->"columna4";
+"columna4"->"columna20";
+"columna20"->"columna4"[constraint=false];
+"columna4"->"columna3"[constraint=false];
+"columna3"->"columna1"[constraint=false];
+"Mat"->"fila2"[rankdir=UD];
+"fila2"->"Mat";
+"fila2"->"fila3"[rankdir=UD];
 "fila3"->"fila4"[rankdir=UD];
 "fila4"->"fila20"[rankdir=UD];
 "fila20"->"fila4"[constraint=false];
 "fila4"->"fila3"[constraint=false];
-"columna9"->"nodo39"[rankdir=UD];
-"nodo39"->"columna9"[rankdir=UD];
-"nodo39"->"nodo49"[rankdir=UD];
-"nodo49"->"nodo39"[rankdir=UD];
+"fila3"->"fila2"[constraint=false];
+"columna1"->"nodo21"[rankdir=UD];
+"nodo21"->"columna1"[rankdir=UD];
+"columna3"->"nodo23"[rankdir=UD];
+"nodo23"->"columna3"[rankdir=UD];
+"nodo23"->"nodo33"[rankdir=UD];
+"nodo33"->"nodo23"[rankdir=UD];
+"columna4"->"nodo44"[rankdir=UD];
+"nodo44"->"columna4"[rankdir=UD];
 "columna20"->"nodo2020"[rankdir=UD];
 "nodo2020"->"columna20"[rankdir=UD];
 

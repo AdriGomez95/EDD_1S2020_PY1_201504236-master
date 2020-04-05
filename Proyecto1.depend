@@ -424,7 +424,7 @@
 1585451758 source:c:\users\x\desktop\edd_1s2020_py1_201504236-master\src\nodolista.cpp
 	"nodoLista.h"
 
-1586047326 source:c:\users\x\desktop\edd_1s2020_py1_201504236-master\main.cpp
+1586122341 source:c:\users\x\desktop\edd_1s2020_py1_201504236-master\main.cpp
 	<iostream>
 	<conio.h>
 	<stdlib.h>
@@ -434,6 +434,7 @@
 	<typeinfo>
 	<sstream>
 	"ListaSimple.h"
+	"ListaScoreBoard.h"
 	"ArbolBinario.h"
 	"matriz.h"
 	"ListaCircular.h"
@@ -610,4 +611,22 @@
 	<cstring>
 	<limits>
 	<type_traits>
+
+1586073457 source:c:\users\x\desktop\edd_1s2020_py1_201504236-master\src\nodoscoreboard.cpp
+	"NodoScoreBoard.h"
+
+1586073490 c:\users\x\desktop\edd_1s2020_py1_201504236-master\include\nodoscoreboard.h
+	<iostream>
+	<cstdlib>
+	<cstring>
+	<string>
+
+1586122262 source:c:\users\x\desktop\edd_1s2020_py1_201504236-master\src\listascoreboard.cpp
+	"ListaScoreBoard.h"
+
+1586073839 c:\users\x\desktop\edd_1s2020_py1_201504236-master\include\listascoreboard.h
+	"NodoScoreBoard.h"
+	<iostream>
+	<cstring>
+	<fstream>
 

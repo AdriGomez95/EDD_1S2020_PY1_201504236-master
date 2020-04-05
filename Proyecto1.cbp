@@ -37,20 +37,24 @@
 		<Unit filename="include/ArbolBinario.h" />
 		<Unit filename="include/Cola.h" />
 		<Unit filename="include/ListaCircular.h" />
+		<Unit filename="include/ListaScoreBoard.h" />
 		<Unit filename="include/ListaSimple.h" />
 		<Unit filename="include/NodoArbol.h" />
 		<Unit filename="include/NodoCircular.h" />
 		<Unit filename="include/NodoCola.h" />
+		<Unit filename="include/NodoScoreBoard.h" />
 		<Unit filename="include/matriz.h" />
 		<Unit filename="include/nodoLista.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ArbolBinario.cpp" />
 		<Unit filename="src/Cola.cpp" />
 		<Unit filename="src/ListaCircular.cpp" />
+		<Unit filename="src/ListaScoreBoard.cpp" />
 		<Unit filename="src/ListaSimple.cpp" />
 		<Unit filename="src/NodoArbol.cpp" />
 		<Unit filename="src/NodoCircular.cpp" />
 		<Unit filename="src/NodoCola.cpp" />
+		<Unit filename="src/NodoScoreBoard.cpp" />
 		<Unit filename="src/matriz.cpp" />
 		<Unit filename="src/nodoLista.cpp" />
 		<Extensions>

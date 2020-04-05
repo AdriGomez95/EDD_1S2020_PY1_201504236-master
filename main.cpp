@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include <sstream>
 #include "ListaSimple.h"
+#include "ListaScoreBoard.h"
 #include "ArbolBinario.h"
 #include "matriz.h"
 #include "ListaCircular.h"
@@ -42,11 +43,13 @@ string arrayDiccionario[500];
 
 int respuesta,cont=1;
 string jugador1="", jugador2=""; //Jugadores
+string arrayJugadores[40];
+int banderaJugador, banderaVerificaJuego=0;
+int jugadorx=0;
 int punteo1, punteo2, punteo1m=0, punteo2m=0; //Punteo de los jugadores
 int coordenadaX, coordenadaY; //Coordenadas para la matriz
-//string letra=""; //Letra que ingresa a la matriz
 
-//***************Para concatenar las letras y validar las palabras
+//***************Para concatenar las letras y validar las palabras en el tablero del juego
 string letra;
 char cad2[0];
 char cad3[15];
@@ -65,22 +68,34 @@ int arrayTripleY[30];
 
 ListaSimple* listaPunteo1 = new ListaSimple(); //Lista de punteo jugador 1
 ListaSimple* listaPunteo2 = new ListaSimple(); //Lista de punteo jugador 2
-ListaSimple* listaScoreBoard = new ListaSimple(); //Lista de punteos máximos del ScoreBoard
+ListaSimple* listaPunteo11 = new ListaSimple();
+ListaSimple* listaPunteo22 = new ListaSimple();
+ListaSimple* listaPunteo111 = new ListaSimple();
+ListaSimple* listaPunteo222 = new ListaSimple();
+ListaSimple* listaPunteo1111 = new ListaSimple();
+ListaSimple* listaPunteo2222 = new ListaSimple();
+ListaScoreBoard* listaScoreBoard = new ListaScoreBoard(); //Lista de punteos máximos del ScoreBoard
 ArbolBinario* arbolito = new ArbolBinario(); //Usuarios
 Matriz* matrix = new Matriz();
 ListaCircular* listaCircularDiccionario = new ListaCircular(); //Diccionario de palabras
 ListaCircular* listaDobleFichas1 = new ListaCircular(); //Fichas jugador 1
 ListaCircular* listaDobleFichas2 = new ListaCircular(); //Fichas Jugador 2
+ListaCircular* listaDobleFichas11 = new ListaCircular();
+ListaCircular* listaDobleFichas22 = new ListaCircular();
+ListaCircular* listaDobleFichas111 = new ListaCircular();
+ListaCircular* listaDobleFichas222 = new ListaCircular();
+ListaCircular* listaDobleFichas1111 = new ListaCircular();
+ListaCircular* listaDobleFichas2222 = new ListaCircular();
 Cola* colaFichas = new Cola(); //Ficas disponibles del juego
-Cola* colaFichas2 = new Cola(); //Ficas disponibles del juego
-
-
+int contadorGeneralRondas=0;//Contador para verificar el #de rondas jugadas para los reportes
+int contadorGeneralTurnos=0;
 
 void menu();
 void lecturaArchio();
 void juego();
 void menuMatriz1();
 void menuMatriz2();
+void comparaPunteos();
 void randomFichas1();
 void punteoFichas1();
 void punteoFichas2();
@@ -89,9 +104,9 @@ int compararPalabra2();
 int casillaDoble();  /* Compara si la coordenada es doble*/
 int casillaTriple(); /* o si la coordenada es triple */
 int existeCasilla(); //verifica si es casilla Doble o Triple y multiplica el punteo
-
-
-
+int comparaJugador(); //Compara si el jugador ya existe o no
+int comparaRonda();//Para comparar ronda por partida y crear nuevas fichas por jugador
+void reportes();
 
 void pruebas();
 void prueas2();
@@ -99,6 +114,8 @@ void prueas2();
 
 
 using json = nlohmann::json;
+
+
 int main()
 {
     menu();
@@ -183,15 +200,59 @@ void menu()
         system("cls");
         system("color 5F");
         lecturaArchio();
-
-
     }
     else if(respuesta==2)
     {
+        jugadorx=jugadorx+1;
+        //cout<<jugadorx;
         cout<<"\n    Jugador 1: ";
         cin>>jugador1;
         cout<<"\n    Jugador 2: ";
         cin>>jugador2;
+
+        if(banderaVerificaJuego==0)
+        {
+            cout<<"\n Vamos al menu juego"<<endl;
+            arrayJugadores[jugadorx]=jugador1;
+            jugadorx=jugadorx+1;
+            //cout<<jugadorx<<endl;
+            arrayJugadores[jugadorx]=jugador2;
+        }
+        else
+        {
+            cout<<"\n Vamos a comparar en el array"<<endl;
+            comparaJugador();
+            if(banderaJugador==1)
+            {
+                cout<<"\n Jugador 1 ya existe, ingrese un nombre valido"<<endl;
+                cout<<"\n    Jugador 1: ";
+                cin>>jugador1;
+                arrayJugadores[jugadorx]=jugador1;
+                jugadorx=jugadorx+1;
+                //cout<<jugadorx<<endl;
+                arrayJugadores[jugadorx]=jugador2;
+            }
+            else if(banderaJugador==2)
+            {
+                cout<<"\n Jugador 2 ya existe, ingrese un nombre valido"<<endl;
+                cout<<"\n    Jugador 2: ";
+                cin>>jugador2;
+                arrayJugadores[jugadorx]=jugador1;
+                jugadorx=jugadorx+1;
+                //cout<<jugadorx<<endl;
+                arrayJugadores[jugadorx]=jugador2;
+            }
+            else
+            {
+                cout<<"\n Jugadores agregados con exito"<<endl;
+                arrayJugadores[jugadorx]=jugador1;
+                jugadorx=jugadorx+1;
+                //cout<<jugadorx<<endl;
+                arrayJugadores[jugadorx]=jugador2;
+            }
+        }
+        banderaVerificaJuego++;
+
         arbolito->InsertarJugador(jugador1);
         arbolito->InsertarJugador(jugador2);
         arbolito->graficar();
@@ -201,7 +262,7 @@ void menu()
     }
     else if(respuesta==3)
     {
-        printf("\n    Opcion 3 ");
+        reportes();
 
     }
     else if(respuesta==4)
@@ -292,6 +353,33 @@ void juego()
 
 void menuMatriz1()
 {
+    if(contadorGeneralTurnos==0)
+    {
+        listaDobleFichas1->GraficarListaDoble();
+        listaDobleFichas2->GraficarListaDoble2();
+    }
+    else if(contadorGeneralTurnos==1)
+    {
+        listaDobleFichas11->GraficarListaDoble();
+        listaDobleFichas22->GraficarListaDoble2();
+    }
+    else if(contadorGeneralTurnos==2)
+    {
+        listaDobleFichas111->GraficarListaDoble();
+        listaDobleFichas222->GraficarListaDoble2();
+    }
+    else if(contadorGeneralTurnos==3)
+    {
+        listaDobleFichas1111->GraficarListaDoble();
+        listaDobleFichas2222->GraficarListaDoble2();
+    }
+    else
+    {
+        listaDobleFichas1->GraficarListaDoble();
+        listaDobleFichas2->GraficarListaDoble2();
+    }
+
+
     cout<<"\n\n *** TURNO JUGADOR 1: "<<jugador1<<" ***";
     cout<<"\n Ingresa coordenada en Y: ";
     cin>>coordenadaY;
@@ -619,15 +707,55 @@ void menuMatriz2()
 
         if(resp2==1)
         {
+            contadorGeneralTurnos=contadorGeneralTurnos+1;
             juego();
         }
         else
         {
-            listaPunteo1->Insetar(punteo1);
-            listaPunteo2->Insetar(punteo2);
-            listaPunteo1->Graficar();
-
-            listaPunteo2->Graficar2();
+            cout<<"\n\t Punteo "<<jugador1<<": "<<punteo1;
+            cout<<"\n\t Punteo "<<jugador2<<": "<<punteo2;
+            if(contadorGeneralRondas==0)
+            {
+                listaPunteo1->Insetar(punteo1);
+                listaPunteo2->Insetar(punteo2);
+                listaPunteo1->Graficar();
+                listaPunteo2->Graficar2();
+            }
+            else if(contadorGeneralRondas==1)
+            {
+                listaPunteo11->Insetar(punteo1);
+                listaPunteo22->Insetar(punteo2);
+                listaPunteo11->Graficar();
+                listaPunteo22->Graficar2();
+            }
+            else if(contadorGeneralRondas==2)
+            {
+                listaPunteo111->Insetar(punteo1);
+                listaPunteo222->Insetar(punteo2);
+                listaPunteo111->Graficar();
+                listaPunteo222->Graficar2();
+            }
+            else if(contadorGeneralRondas==3)
+            {
+                listaPunteo1111->Insetar(punteo1);
+                listaPunteo2222->Insetar(punteo2);
+                listaPunteo1111->Graficar();
+                listaPunteo2222->Graficar2();
+            }
+            else
+            {
+                listaPunteo1->Insetar(punteo1);
+                listaPunteo2->Insetar(punteo2);
+                listaPunteo1->Graficar();
+                listaPunteo2->Graficar2();
+            }
+            listaScoreBoard->InsetarScoreBoard(jugador1,punteo1);
+            listaScoreBoard->InsetarScoreBoard(jugador2,punteo2);
+            listaScoreBoard->GraficarScoreBoard();
+            contadorGeneralRondas=contadorGeneralRondas+1;
+            contadorGeneralTurnos=0;
+            punteo1=0;
+            punteo2=0;
             system("cls");
             menu();
         }
@@ -767,16 +895,40 @@ void randomFichas1()
         {
             listaDobleFichas2->InsetarListaCircular(letraFicha);
         }
+        else if((c>=15)&&(c<=21))
+        {
+            listaDobleFichas11->InsetarListaCircular(letraFicha);
+        }
+        else if((c>=22)&&(c<=28))
+        {
+            listaDobleFichas22->InsetarListaCircular(letraFicha);
+        }
+        else if((c>=29)&&(c<=35))
+        {
+            listaDobleFichas111->InsetarListaCircular(letraFicha);
+        }
+        else if((c>=36)&&(c<=42))
+        {
+            listaDobleFichas222->InsetarListaCircular(letraFicha);
+        }
+        else if((c>=43)&&(c<=49))
+        {
+            listaDobleFichas1111->InsetarListaCircular(letraFicha);
+        }
+        else if((c>=50)&&(c<=57))
+        {
+            listaDobleFichas2222->InsetarListaCircular(letraFicha);
+        }
 
 
-        cout << letraFicha<< " ";
+        //cout << letraFicha<< " ";
         //INGRESANDO A LA COLA, QUE ES LA QUE MUESTRA LAS FICHAS TOTALES DISPONIBLES DEL JUEGO
         colaFichas->InsetarCola(letraFicha2);
     }
         //GRAFICANDO LA COLA Y LISTA DOBLE
         colaFichas->GraficarCola();
-        listaDobleFichas1->GraficarListaDoble();
-        listaDobleFichas2->GraficarListaDoble2();
+        /*listaDobleFichas1->GraficarListaDoble();
+        listaDobleFichas2->GraficarListaDoble2();*/
 
 }
 
@@ -824,6 +976,7 @@ int casillaDoble()
         if((arrayDobleX[ii]==coordenadaX)&&(arrayDobleY[ii]==coordenadaY))
         {
             banderaCasillaD=1;
+            cout<<"\t*** CASILLA x2 ***"<<endl;
             return banderaCasillaD;
         }
     }
@@ -839,6 +992,7 @@ int casillaTriple()
         if((arrayTripleX[ii]==coordenadaX)&&(arrayTripleY[ii]==coordenadaY))
         {
             banderaCasillaT=1;
+            cout<<"\t*** CASILLA x3 ***"<<endl;
             return banderaCasillaT;
         }
     }
@@ -849,5 +1003,36 @@ int casillaTriple()
 
 
 
+int comparaJugador()
+{
+    banderaJugador=0;
+    int s;
+    for(s=0; s<40; s++)
+    {
+        if(arrayJugadores[s]==jugador1)
+        {
+            banderaJugador=1;
+            return banderaJugador;
+        }
+        else if(arrayJugadores[s]==jugador2)
+        {
+            banderaJugador=2;
+            return banderaJugador;
+        }
+    }
+    return banderaJugador;
+}
+
+
+
+
+void reportes()
+{
+    cout<<"\n\t Generando reportes...";
+    arbolito->graficar();
+    arbolito->graficarIn();
+    arbolito->graficarPos();
+    arbolito->graficarPre();
+}
 
 

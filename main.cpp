@@ -55,6 +55,13 @@ char cad1[0];
 char cad4[15];
 int bandera;
 
+//***************Para verificar las casillas dobles y triples
+int banderaCasillaD, banderaCasillaT, banderaExisteCasilla;
+int arrayDobleX[30];
+int arrayDobleY[30];
+int arrayTripleX[30];
+int arrayTripleY[30];
+
 
 ListaSimple* listaPunteo1 = new ListaSimple(); //Lista de punteo jugador 1
 ListaSimple* listaPunteo2 = new ListaSimple(); //Lista de punteo jugador 2
@@ -77,14 +84,18 @@ void menuMatriz2();
 void randomFichas1();
 void punteoFichas1();
 void punteoFichas2();
-int compararPalabra();
+int compararPalabra(); //Compara si la palabra existe para el jugador 1
 int compararPalabra2();
+int casillaDoble();  /* Compara si la coordenada es doble*/
+int casillaTriple(); /* o si la coordenada es triple */
+int existeCasilla(); //verifica si es casilla Doble o Triple y multiplica el punteo
 
 
 
 
-void randomFichas2();
 void pruebas();
+void prueas2();
+
 
 
 using json = nlohmann::json;
@@ -171,7 +182,6 @@ void menu()
     {
         system("cls");
         system("color 5F");
-        //randomFichas1();
         lecturaArchio();
 
 
@@ -192,7 +202,7 @@ void menu()
     else if(respuesta==3)
     {
         printf("\n    Opcion 3 ");
-        pruebas();
+
     }
     else if(respuesta==4)
     {
@@ -227,6 +237,8 @@ void lecturaArchio()
         doblesX = stoi(ddoblesX);
         doblesY = stoi(ddoblesY);
         //matrix->InsertarMatriz(doblesX,doblesY,"casilla x2");
+        arrayDobleX[x]=doblesX;
+        arrayDobleY[x]=doblesY;
     }
    for(int x = 0; x < j3.at("casillas").at("triples").size(); x++)
     {
@@ -238,6 +250,8 @@ void lecturaArchio()
         triplesX = stoi(ttriplesX);
         triplesY = stoi(ttriplesY);
        // matrix->InsertarMatriz(triplesY,triplesX,"casilla x3");
+        arrayTripleX[x]=triplesX;
+        arrayTripleY[x]=triplesY;
     }
     matrix->GraficarMatriz();
     for(int x = 0; x < j3.at("diccionario").size(); x++)
@@ -283,9 +297,28 @@ void menuMatriz1()
     cin>>coordenadaY;
     cout<<" Ingresa coordenada en X: ";
     cin>>coordenadaX;
+
+    if((coordenadaX>dimension)||(coordenadaY>dimension))
+    {
+        cout<<"\n *** Por favor, no exceda la dimension ( "<<dimension<<", "<<dimension<<" ) limite del tablero ***"<<endl;
+        cout<<"\n Ingresa coordenada en Y: ";
+        cin>>coordenadaY;
+        cout<<" Ingresa coordenada en X: ";
+        cin>>coordenadaX;
+        if((coordenadaX>dimension)||(coordenadaY>dimension))
+        {
+            cout<<"\n *** Por favor, no exceda la dimension ( "<<dimension<<", "<<dimension<<" ) limite del tablero ***"<<endl;
+            cout<<"\n Ingresa coordenada en Y: ";
+            cin>>coordenadaY;
+            cout<<" Ingresa coordenada en X: ";
+            cin>>coordenadaX;
+        }
+    }
     cout<<" Ingresa una letra: ";
     cin>>cad2;
 
+    casillaDoble();
+    casillaTriple();
     strcat(cad3, cad2);
 
     stringstream ss;
@@ -391,6 +424,18 @@ void menuMatriz1()
        if(bandera==1)
        {
            cout<<"\n La palabra se encontro"<<endl;
+           if(banderaCasillaD==1)
+           {
+               punteo1=punteo1*2;
+           }
+           else if(banderaCasillaT==1)
+           {
+               punteo1=punteo1*3;
+           }
+           else
+           {
+               punteo1=punteo1;
+           }
        }
        else
        {
@@ -415,9 +460,28 @@ void menuMatriz2()
     cin>>coordenadaY;
     cout<<" Ingresa coordenada en X: ";
     cin>>coordenadaX;
+
+    if((coordenadaX>dimension)||(coordenadaY>dimension))
+    {
+        cout<<"\n *** Por favor, no exceda la dimension ( "<<dimension<<", "<<dimension<<" ) limite del tablero ***"<<endl;
+        cout<<"\n Ingresa coordenada en Y: ";
+        cin>>coordenadaY;
+        cout<<" Ingresa coordenada en X: ";
+        cin>>coordenadaX;
+        if((coordenadaX>dimension)||(coordenadaY>dimension))
+        {
+            cout<<"\n *** Por favor, no exceda la dimension ( "<<dimension<<", "<<dimension<<" ) limite del tablero ***"<<endl;
+            cout<<"\n Ingresa coordenada en Y: ";
+            cin>>coordenadaY;
+            cout<<" Ingresa coordenada en X: ";
+            cin>>coordenadaX;
+        }
+    }
     cout<<" Ingresa una letra: ";
     cin>>cad1;
 
+    casillaDoble();
+    casillaTriple();
     strcat(cad4, cad1);
 
     stringstream sss;
@@ -524,6 +588,18 @@ void menuMatriz2()
        if(bandera==1)
        {
            cout<<"\n La palabra se encontro"<<endl;
+           if(banderaCasillaD==1)
+           {
+               punteo2=punteo2*2;
+           }
+           else if(banderaCasillaT==1)
+           {
+               punteo2=punteo2*3;
+           }
+           else
+           {
+               punteo2=punteo2;
+           }
        }
        else
        {
@@ -558,6 +634,8 @@ void menuMatriz2()
     }
 
 }
+
+
 
 
 void randomFichas1()
@@ -703,6 +781,8 @@ void randomFichas1()
 }
 
 
+
+
 int compararPalabra()
 {
     bandera=0;
@@ -735,18 +815,36 @@ int compararPalabra2()
 
 
 
-
-
-void pruebas()
+int casillaDoble()
 {
+    banderaCasillaD=0;
+    int ii;
+    for(ii=0; ii<30; ii++)
+    {
+        if((arrayDobleX[ii]==coordenadaX)&&(arrayDobleY[ii]==coordenadaY))
+        {
+            banderaCasillaD=1;
+            return banderaCasillaD;
+        }
+    }
+    return banderaCasillaD;
 }
 
+int casillaTriple()
+{
+    banderaCasillaT=0;
+    int ii;
+    for(ii=0; ii<30; ii++)
+    {
+        if((arrayTripleX[ii]==coordenadaX)&&(arrayTripleY[ii]==coordenadaY))
+        {
+            banderaCasillaT=1;
+            return banderaCasillaT;
+        }
+    }
+    return banderaCasillaT;
 
-
-
-
-
-
+}
 
 
 

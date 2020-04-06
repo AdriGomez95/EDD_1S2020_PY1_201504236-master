@@ -708,6 +708,41 @@ void menuMatriz2()
         if(resp2==1)
         {
             contadorGeneralTurnos=contadorGeneralTurnos+1;
+            if(contadorGeneralRondas==0)
+            {
+                listaPunteo1->Insetar(punteo1);
+                listaPunteo2->Insetar(punteo2);
+                listaPunteo1->Graficar();
+                listaPunteo2->Graficar2();
+            }
+            else if(contadorGeneralRondas==1)
+            {
+                listaPunteo11->Insetar(punteo1);
+                listaPunteo22->Insetar(punteo2);
+                listaPunteo11->Graficar();
+                listaPunteo22->Graficar2();
+            }
+            else if(contadorGeneralRondas==2)
+            {
+                listaPunteo111->Insetar(punteo1);
+                listaPunteo222->Insetar(punteo2);
+                listaPunteo111->Graficar();
+                listaPunteo222->Graficar2();
+            }
+            else if(contadorGeneralRondas==3)
+            {
+                listaPunteo1111->Insetar(punteo1);
+                listaPunteo2222->Insetar(punteo2);
+                listaPunteo1111->Graficar();
+                listaPunteo2222->Graficar2();
+            }
+            else
+            {
+                listaPunteo1->Insetar(punteo1);
+                listaPunteo2->Insetar(punteo2);
+                listaPunteo1->Graficar();
+                listaPunteo2->Graficar2();
+            }
             juego();
         }
         else

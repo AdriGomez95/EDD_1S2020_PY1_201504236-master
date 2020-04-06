@@ -2,10 +2,6 @@ digraph ArbolAVL{
  rankdir=TB;
  node [shape = record, style=filled, fillcolor=seashell2];
 nodo0 [ label ="<C0>|Adriana|<C1>"];
-nodo1 [ label ="<C0>|Gomez|<C1>"];
-nodo2 [ label ="<C0>|Sam|<C1>"];
-nodo3 [ label ="Noah"];
-nodo2:C0->nodo3
-nodo1:C1->nodo2
+nodo1 [ label ="Noah"];
 nodo0:C1->nodo1
 }

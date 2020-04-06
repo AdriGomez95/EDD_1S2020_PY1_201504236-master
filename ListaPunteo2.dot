@@ -1,3 +1,4 @@
 digraph G{
-node0[shape = record,label = "Punteo: 0"];
-node0}
+node0[shape = record,label = "Punteo: 1"];
+node1[shape = record,label = "Punteo: 0"];
+node0->node1}
